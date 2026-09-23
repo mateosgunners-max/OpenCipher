@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  
+  <!-- Primary Meta Tags -->
+  <title>OpenCipher | Zero-Knowledge Client-Side Cryptography Suite</title>
+  <meta name="title" content="OpenCipher | Zero-Knowledge Client-Side Cryptography Suite">
+  <meta name="description" content="Open-source, zero-telemetry cryptographic workbench running 100% client-side via the W3C Web Crypto API. AES-GCM 256, RSA-4096, Multi-Hash, JWT verification, and Diceware CSPRNG.">
+  <meta name="keywords" content="cryptography, webcrypto, aes-256-gcm, rsa key generator, client side encryption, jwt verifier, hash generator, offline privacy tool">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="OpenCipher | Zero-Knowledge Client-Side Cryptography Suite">
+  <meta property="og:description" content="100% Client-Side, Zero-Telemetry Cryptographic Engine. Zero servers, zero trackers.">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Core Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Cyber Grid Background Animation -->
+  <div class="cyber-grid-bg"></div>
+  <div class="glow-orb glow-orb-1"></div>
+  <div class="glow-orb glow-orb-2"></div>
+
+  <!-- Main Container -->
+  <div class="app-container">
+
+    <!-- ==========================================================================
+         TOP HEADER & AIR-GAP TELEMETRY STATUS
+         ========================================================================== -->
+    <header class="site-header">
+      <div class="header-inner">
+        <a href="index.html" class="brand-wrapper" aria-label="OpenCipher Home">
+          <div class="brand-badge-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+            </svg>
+          </div>
+          <div>
+            <div class="brand-text-title">
+              OpenCipher
+              <span class="brand-version-pill">v1.0 • WebCrypto</span>
+            </div>
+            <span class="brand-subtitle">Zero-Knowledge Cryptographic & Privacy Suite</span>
+          </div>
+        </a>
+
+        <div class="header-security-status">
+          <div class="airgap-indicator" title="All operations run 100% locally on your machine via WebCrypto.">
+            <span class="pulse-led"></span>
+            <span>Zero-Telemetry Active (Local-Only)</span>
+          </div>
+
+          <button type="button" class="panic-button" id="panicBtn" title="Purge all active memory and clipboard">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+            Zeroize Memory
+          </button>
+
+          <a href="https://github.com/mateosgunners-max/Aura-Crest" target="_blank" rel="noopener noreferrer" class="github-link-btn" aria-label="GitHub Repository">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+            GitHub
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- ==========================================================================
+         NAVIGATION TABS
+         ========================================================================== -->
+    <nav class="nav-tab-strip" aria-label="Cryptographic Tools Navigation">
+      <button type="button" class="tab-btn active" data-tab="tabAes">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+        AES-256 Vault
+      </button>
+
+      <button type="button" class="tab-btn" data-tab="tabRsa">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"></path></svg>
+        RSA Studio
+      </button>
+
+      <button type="button" class="tab-btn" data-tab="tabHash">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>
+        Multi-Hash & Integrity
+      </button>
+
+      <button type="button" class="tab-btn" data-tab="tabJwt">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+        JWT Inspector
+      </button>
+
+      <button type="button" class="tab-btn" data-tab="tabEntropy">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+        Entropy & Passphrase
+      </button>
+
+      <button type="button" class="tab-btn" data-tab="tabConverter">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="17 1 21 5 17 9"></polyline><path d="M3 11V9a4 4 0 0 1 4-4h14"></path><polyline points="7 23 3 19 7 15"></polyline><path d="M21 13v2a4 4 0 0 1-4 4H3"></path></svg>
+        Format Converter
+      </button>
+    </nav>
+
+    <!-- ==========================================================================
+         TAB 1: AES-256 VAULT (TEXT & FILE ENCRYPTION)
+         ========================================================================== -->
+    <section class="tool-pane active" id="tabAes">
+      <div class="panel-grid">
+        <!-- Encrypt Text Card -->
+        <div class="cipher-card">
+          <div class="card-header">
+            <div class="card-title-group">
+              <div class="card-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+              </div>
+              <div>
+                <h2 class="card-title">AES-GCM 256 Encryption</h2>
+                <div class="card-desc">PBKDF2 SHA-256 (100,000 Iterations) + 96-bit CSPRNG IV</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="label-row">
+              <label for="aesPlainInput" class="form-label">Plaintext Input</label>
+              <span class="label-hint">Sensitive message or payload</span>
+            </div>
+            <textarea class="textarea-control" id="aesPlainInput" placeholder="Enter sensitive text to encrypt..."></textarea>
+          </div>
+
+          <div class="form-group">
+            <div class="label-row">
+              <label for="aesPasswordInput" class="form-label">Encryption Passphrase</label>
+              <span class="label-hint">Key derived with PBKDF2</span>
+            </div>
+            <input type="password" class="input-control" id="aesPasswordInput" placeholder="Enter strong passphrase...">
+          </div>
+
+          <button type="button" class="btn btn-primary" id="aesEncryptBtn" style="margin-bottom: 1.25rem;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+            Encrypt with AES-GCM
+          </button>
+
+          <div class="form-group">
+            <div class="label-row">
+              <label for="aesOutput" class="form-label">Encrypted JSON Package</label>
+              <button type="button" class="btn-icon-only" onclick="copyText('aesOutput', 'Encrypted Payload')" title="Copy Payload">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              </button>
+            </div>
+            <textarea class="textarea-control output-area" id="aesOutput" readonly placeholder="Encrypted package will output here..."></textarea>
+          </div>
+        </div>
+
+        <!-- Decrypt Text Card -->
+        <div class="cipher-card">
+          <div class="card-header">
+            <div class="card-title-group">
+              <div class="card-icon" style="color: var(--accent-emerald); background: rgba(16, 185, 129, 0.1);">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 9.9-1"></path></svg>
+              </div>
+              <div>
+                <h2 class="card-title">Authenticated Decryption</h2>
+                <div class="card-desc">Verifies GMAC Integrity Tag before revealing plaintext</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="label-row">
+              <label for="aesDecryptInput" class="form-label">Encrypted JSON Package</label>
+              <span class="label-hint">Paste OpenCipher payload</span>
+            </div>
+            <textarea class="textarea-control" id="aesDecryptInput" placeholder='Paste JSON containing {"salt", "iv", "ciphertext"}...'></textarea>
+          </div>
+
+          <div class="form-group">
+            <div class="label-row">
+              <label for="aesDecryptPassword" class="form-label">Decryption Passphrase</label>
+              <span class="label-hint">Must match encryption key</span>
+            </div>
+            <input type="password" class="input-control" id="aesDecryptPassword" placeholder="Enter passphrase...">
+          </div>
+
+          <button type="button" class="btn btn-emerald" id="aesDecryptBtn" style="margin-bottom: 1.25rem;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+            Verify & Decrypt
+          </button>
+
+          <div class="form-group">
+            <div class="label-row">
+              <label for="aesDecryptOutput" class="form-label">Decrypted Plaintext</label>
+              <button type="button" class="btn-icon-only" onclick="copyText('aesDecryptOutput', 'Decrypted Plaintext')" title="Copy Plaintext">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              </button>
+            </div>
+            <textarea class="textarea-control output-area" id="aesDecryptOutput" readonly placeholder="Verified plaintext will appear here..."></textarea>
+          </div>
+        </div>
+
+        <!-- Binary File Encryption / Decryption Box -->
+        <div class="cipher-card panel-full">
+          <div class="card-header">
+            <div class="card-title-group">
+              <div class="card-icon" style="color: var(--accent-purple); background: rgba(139, 92, 246, 0.1);">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><polyline points="13 2 13 9 20 9"></polyline></svg>
+              </div>
+              <div>
+                <h2 class="card-title">Client-Side File Encryption (Binary Buffer)</h2>
+                <div class="card-desc">Encrypt any document, image, or archive directly in browser memory without server upload</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="dropzone-box" id="fileEncDrop">
+            <svg class="dropzone-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+            <div class="dropzone-title">Drag & Drop any file here, or click to browse</div>
+            <div class="dropzone-sub">Processes 100% locally using ArrayBuffers (up to 100MB)</div>
+            <input type="file" id="fileEncInput" style="display: none;">
+          </div>
+
+          <div style="display: flex; gap: 1rem; align-items: flex-end;">
+            <div class="form-group" style="flex: 1; margin-bottom: 0;">
+              <label for="fileEncPass" class="form-label">Passphrase for File</label>
+              <input type="password" class="input-control" id="fileEncPass" placeholder="Enter file encryption key...">
+            </div>
+            <button type="button" class="btn btn-primary" id="fileEncBtn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+              Encrypt & Download (.opencipher)
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         TAB 2: RSA KEY STUDIO (2048 / 4096-BIT)
+         ========================================================================== -->
+    <section class="tool-pane" id="tabRsa">
+      <div class="panel-grid">
+        <div class="cipher-card panel-full">
+          <div class="card-header">
+            <div class="card-title-group">
+              <div class="card-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"></path></svg>
+              </div>
+              <div>
+                <h2 class="card-title">RSA-OAEP Asymmetric Keypair Generator</h2>
+                <div class="card-desc">Generate cryptographically secure public and private keys with standard PEM formatting</div>
+              </div>
+            </div>
+            <div style="display: flex; gap: 10px; align-items: center;">
+              <select class="select-control" id="rsaBitsSelect" style="width: auto;" aria-label="Key Modulus Size">
+                <option value="2048">2048-bit (Fast)</option>
+                <option value="4096" selected>4096-bit (High Security)</option>
+              </select>
+              <button type="button" class="btn btn-primary" id="rsaGenBtn">
+                Generate Fresh RSA Keypair
+              </button>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+            <div>
+              <div class="label-row" style="margin-bottom: 6px;">
+                <label for="rsaPublicKeyArea" class="form-label" style="color: var(--accent-cyan);">Public Key (SPKI / PEM)</label>
+                <button type="button" class="btn-icon-only" onclick="copyText('rsaPublicKeyArea', 'RSA Public Key')" title="Copy Public Key">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                </button>
+              </div>
+              <textarea class="textarea-control" id="rsaPublicKeyArea" readonly style="min-height: 240px; font-size: 0.78rem;" placeholder="Click 'Generate Fresh RSA Keypair' above..."></textarea>
+            </div>
+
+            <div>
+              <div class="label-row" style="margin-bottom: 6px;">
+                <label for="rsaPrivateKeyArea" class="form-label" style="color: var(--accent-rose);">Private Key (PKCS#8 / PEM)</label>
+                <button type="button" class="btn-icon-only" onclick="copyText('rsaPrivateKeyArea', 'RSA Private Key')" title="Copy Private Key">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                </button>
+              </div>
+              <textarea class="textarea-control" id="rsaPrivateKeyArea" readonly style="min-height: 240px; font-size: 0.78rem;" placeholder="Private key stays strictly in volatile memory..."></textarea>
+            </div>
+          </div>
+        </div>
+
+        <!-- Live RSA Asymmetric Testing Sandbox -->
+        <div class="cipher-card panel-full">
+          <div class="card-header">
+            <h3 class="card-title" style="font-size: 0.95rem;">Live Asymmetric Sandbox (Verify Keypair Integrity)</h3>
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+            <div class="form-group" style="margin-bottom: 0;">
+              <label for="rsaTestInput" class="form-label">Message to Encrypt with Public Key</label>
+              <input type="text" class="input-control" id="rsaTestInput" placeholder="Secret message to encrypt...">
+              <button type="button" class="btn btn-secondary" id="rsaTestEncryptBtn" style="margin-top: 10px;">
+                Encrypt with Public Key
+              </button>
+            </div>
+            <div class="form-group" style="margin-bottom: 0;">
+              <label for="rsaTestOutput" class="form-label">Ciphertext (Base64) to Decrypt with Private Key</label>
+              <textarea class="textarea-control" id="rsaTestOutput" style="min-height: 80px;" placeholder="Ciphertext will appear here..."></textarea>
+              <button type="button" class="btn btn-emerald" id="rsaTestDecryptBtn" style="margin-top: 10px;">
+                Decrypt with Private Key
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         TAB 3: MULTI-HASH & CHECKSUM INTEGRITY
+         ========================================================================== -->
+    <section class="tool-pane" id="tabHash">
+      <div class="panel-grid">
+        <div class="cipher-card panel-full">
+          <div class="card-header">
+            <div class="card-title-group">
+              <div class="card-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>
+              </div>
+              <div>
+                <h2 class="card-title">Real-Time Cryptographic Hash Generator</h2>
+                <div class="card-desc">Calculates concurrent SHA-256, SHA-512, SHA-384, and SHA-1 digests simultaneously as you type</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="hashInputText" class="form-label">Input Text to Hash</label>
+            <textarea class="textarea-control" id="hashInputText" placeholder="Type or paste any string to hash in real time..."></textarea>
+          </div>
+
+          <div class="hash-results-list">
+            <!-- SHA-256 -->
+            <div class="hash-row">
+              <span class="hash-meta">SHA-256</span>
+              <span class="hash-val-display" id="hashSha256"></span>
+              <button type="button" class="btn-icon-only" onclick="copyText('hashSha256', 'SHA-256')" title="Copy SHA-256">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              </button>
+            </div>
+
+            <!-- SHA-512 -->
+            <div class="hash-row">
+              <span class="hash-meta">SHA-512</span>
+              <span class="hash-val-display" id="hashSha512"></span>
+              <button type="button" class="btn-icon-only" onclick="copyText('hashSha512', 'SHA-512')" title="Copy SHA-512">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              </button>
+            </div>
+
+            <!-- SHA-384 -->
+            <div class="hash-row">
+              <span class="hash-meta">SHA-384</span>
+              <span class="hash-val-display" id="hashSha384"></span>
+              <button type="button" class="btn-icon-only" onclick="copyText('hashSha384', 'SHA-384')" title="Copy SHA-384">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              </button>
+            </div>
+
+            <!-- SHA-1 -->
+            <div class="hash-row">
+              <span class="hash-meta" style="color: var(--accent-amber);">SHA-1 (Legacy)</span>
+              <span class="hash-val-display" id="hashSha1"></span>
+              <button type="button" class="btn-icon-only" onclick="copyText('hashSha1', 'SHA-1')" title="Copy SHA-1">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Checksum Verification Comparator -->
+        <div class="cipher-card panel-full">
+          <div class="card-header">
+            <h3 class="card-title" style="font-size: 0.95rem;">Integrity Comparator (Check Against Known Hash)</h3>
+            <span id="verifyResultBadge" style="font-family: var(--font-mono); font-weight: 700; font-size: 0.85rem; color: var(--text-muted);">Awaiting Checksum</span>
+          </div>
+          <div class="form-group" style="margin-bottom: 0;">
+            <label for="verifyCompareInput" class="form-label">Expected Checksum (SHA-256 or SHA-512)</label>
+            <input type="text" class="input-control" id="verifyCompareInput" placeholder="Paste known checksum here to test for bit-for-bit equivalence...">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         TAB 4: JWT INSPECTOR & OFFLINE VERIFIER
+         ========================================================================== -->
+    <section class="tool-pane" id="tabJwt">
+      <div class="panel-grid">
+        <div class="cipher-card panel-full">
+          <div class="card-header">
+            <div class="card-title-group">
+              <div class="card-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+              </div>
+              <div>
+                <h2 class="card-title">Offline JSON Web Token (JWT) Inspector</h2>
+                <div class="card-desc">Zero telemetry inspection & HMAC-SHA256 signature verification</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="jwtInput" class="form-label">Encoded JWT Token</label>
+            <textarea class="textarea-control" id="jwtInput" style="min-height: 90px;" placeholder="Paste raw token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkFsaWNlIn0..."></textarea>
+          </div>
+
+          <div class="jwt-viewer-grid">
+            <!-- Header Column -->
+            <div class="jwt-col header-col">
+              <div class="jwt-col-title">Header (Algorithm & Type)</div>
+              <pre class="jwt-col-content" id="jwtHeaderView">// Awaiting token</pre>
+            </div>
+
+            <!-- Payload Column -->
+            <div class="jwt-col payload-col">
+              <div class="jwt-col-title">Payload (Data Claims & Timestamps)</div>
+              <pre class="jwt-col-content" id="jwtPayloadView">// Awaiting token</pre>
+            </div>
+
+            <!-- Signature Column -->
+            <div class="jwt-col sig-col">
+              <div class="jwt-col-title">Signature</div>
+              <pre class="jwt-col-content" id="jwtSignatureView">// Awaiting token</pre>
+            </div>
+          </div>
+
+          <!-- Offline Signature Verification -->
+          <div style="margin-top: 1.5rem; padding-top: 1.25rem; border-top: 1px solid var(--border-subtle); display: flex; gap: 1rem; align-items: flex-end;">
+            <div class="form-group" style="flex: 1; margin-bottom: 0;">
+              <label for="jwtSecretInput" class="form-label">HMAC-SHA256 Secret Key (HS256)</label>
+              <input type="password" class="input-control" id="jwtSecretInput" placeholder="Enter secret to verify signature locally...">
+            </div>
+            <button type="button" class="btn btn-primary" id="verifyJwtBtn">
+              Verify Signature Offline
+            </button>
+            <div id="jwtVerifyStatus" style="font-family: var(--font-mono); font-weight: 700; font-size: 0.85rem; padding: 0.75rem 0;"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         TAB 5: ENTROPY & PASSPHRASE GENERATOR
+         ========================================================================== -->
+    <section class="tool-pane" id="tabEntropy">
+      <div class="panel-grid">
+        <div class="cipher-card panel-full">
+          <div class="card-header">
+            <div class="card-title-group">
+              <div class="card-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+              </div>
+              <div>
+                <h2 class="card-title">CSPRNG Diceware Passphrase & Entropy Auditor</h2>
+                <div class="card-desc">True cryptographic randomness via window.crypto.getRandomValues + NIST SP 800-63B Entropy Meter</div>
+              </div>
+            </div>
+            <button type="button" class="btn btn-primary" id="genPassphraseBtn">
+              Generate New Passphrase
+            </button>
+          </div>
+
+          <div style="display: flex; gap: 1rem; margin-bottom: 1.25rem;">
+            <div class="form-group" style="margin-bottom: 0;">
+              <label for="passLengthSelect" class="form-label">Word Count</label>
+              <select class="select-control" id="passLengthSelect">
+                <option value="4" selected>4 Words (~52 bits)</option>
+                <option value="5">5 Words (~65 bits)</option>
+                <option value="6">6 Words (~78 bits)</option>
+                <option value="8">8 Words (~104 bits)</option>
+              </select>
+            </div>
+            <div class="form-group" style="margin-bottom: 0;">
+              <label for="passSeparatorSelect" class="form-label">Separator</label>
+              <select class="select-control" id="passSeparatorSelect">
+                <option value="-" selected>Hyphen (-)</option>
+                <option value=".">Period (.)</option>
+                <option value="_">Underscore (_)</option>
+                <option value=" ">Space ( )</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="label-row">
+              <label for="genPassResult" class="form-label">Generated Passphrase / Password</label>
+              <button type="button" class="btn-icon-only" onclick="copyText('genPassResult', 'Passphrase')" title="Copy Passphrase">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              </button>
+            </div>
+            <input type="text" class="input-control" id="genPassResult" style="font-size: 1.15rem; color: var(--accent-cyan); font-weight: 700;">
+          </div>
+
+          <!-- Entropy Meter -->
+          <div class="entropy-meter-wrap">
+            <div class="entropy-bar-track">
+              <div class="entropy-bar-fill" id="entropyBarFill"></div>
+            </div>
+            <div class="entropy-stats-row">
+              <span>Entropy: <strong id="entropyBitsDisplay" style="color: var(--accent-cyan);">0 bits</strong></span>
+              <span>Brute-force Resistance: <strong id="entropyCrackTime" style="color: var(--text-primary);">Estimating...</strong></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         TAB 6: FORMAT CONVERTER
+         ========================================================================== -->
+    <section class="tool-pane" id="tabConverter">
+      <div class="panel-grid">
+        <div class="cipher-card panel-full">
+          <div class="card-header">
+            <div class="card-title-group">
+              <div class="card-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="17 1 21 5 17 9"></polyline><path d="M3 11V9a4 4 0 0 1 4-4h14"></path><polyline points="7 23 3 19 7 15"></polyline><path d="M21 13v2a4 4 0 0 1-4 4H3"></path></svg>
+              </div>
+              <div>
+                <h2 class="card-title">Cryptographic Format & Encoding Workbench</h2>
+                <div class="card-desc">Safe client-side translation between Base64, Hexadecimal, and URL-encoding formats</div>
+              </div>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+            <div class="form-group" style="margin-bottom: 0;">
+              <label for="fmtInput" class="form-label">Input Data</label>
+              <textarea class="textarea-control" id="fmtInput" placeholder="Enter text or raw hex/base64 to convert..."></textarea>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 0;">
+              <div class="label-row">
+                <label for="fmtOutput" class="form-label">Converted Output</label>
+                <button type="button" class="btn-icon-only" onclick="copyText('fmtOutput', 'Converted Data')" title="Copy Converted">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                </button>
+              </div>
+              <textarea class="textarea-control output-area" id="fmtOutput" readonly placeholder="Result will appear here..."></textarea>
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 1rem; margin-top: 1.25rem; align-items: center;">
+            <div class="form-group" style="margin-bottom: 0; min-width: 250px;">
+              <label for="fmtMode" class="form-label">Encoding / Decoding Mode</label>
+              <select class="select-control" id="fmtMode">
+                <option value="b64-enc">Plaintext &rarr; Base64</option>
+                <option value="b64-dec">Base64 &rarr; Plaintext</option>
+                <option value="hex-enc">Plaintext &rarr; Hexadecimal</option>
+                <option value="hex-dec">Hexadecimal &rarr; Plaintext</option>
+                <option value="url-enc">Plaintext &rarr; URL Encoded</option>
+                <option value="url-dec">URL Encoded &rarr; Plaintext</option>
+              </select>
+            </div>
+            <button type="button" class="btn btn-primary" id="fmtConvertBtn" style="margin-top: 22px;">
+              Convert Format
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         FOOTER
+         ========================================================================== -->
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div>
+          &copy; 2026 OpenCipher • Open Source under the MIT License • Built with W3C WebCrypto API.
+        </div>
+        <div class="footer-links">
+          <a href="https://github.com/mateosgunners-max/Aura-Crest" target="_blank" rel="noopener noreferrer">Source Code</a>
+          <a href="README.md" target="_blank">Documentation</a>
+          <a href="SECURITY.md" target="_blank">Security Policy</a>
+        </div>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- Toast Notification Component -->
+  <div class="toast-notice" id="toastNotice" role="status" aria-live="polite">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+    <span class="toast-msg">Notification</span>
+  </div>
+
+  <!-- Core Script -->
+  <script src="script.js"></script>
+</body>
+</html>
